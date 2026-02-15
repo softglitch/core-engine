@@ -1,20 +1,20 @@
 == Stats ==
 # Body
-everything related to your physical self
+Everything related to your physical self
 - this is your main stat if you want to play a…
     >fighter, thief, dancer, athlete, race car driver, fighter pilot, soldier, ballerina
 - it is used to perform actions such as…
     >fighting, climbing, running, balancing, picking a pocket, operating a vehicle, acting gracefully, resisting a physical condition such as disease or hunger.
 
 # Mind
-everything related to your mental self
+Everything related to your mental self
 - this is your main stat if you want to play a…
     >magic user, mechanic, hacker, mentalist, scientist, psychic, strategist
 - it is used to perform actions such as…
     >casting a spell, repairing, hacking, research, strategic thinking, reading a mind, resisting mind control, not being afraid, functioning under stress, staying calm
 
 # Social
-everything related to interacting with others
+Everything related to interacting with others
 - this is your main stat if you want to play a…
     >negotiator, interviewer, politician, musician, cheerleader, entertainer, influencer
 - it is used to perform actions such as…
@@ -65,8 +65,7 @@ d6->d8->d10->d12->d20
 
 Note! If a character has both an appropriate skill and item they can choose to apply die upgrades to separate or the same die, meaning d6->d8 twice or d6->d8->d10. Or if they are pushing their skill and using extra useful item they can choose to roll 2d10 or d6+d20.
 
-Note to GM! About probabilities…
-The game starts with 2d6+stat, but with any skill you are probably looking mostly at d8+d6+(-3 to 5). d8+d6 average around 8 with starting stats arranging from -1 to 1. This means a character rolling a check with their main stat, using a skill will average 9. Items with die upgrade should also be easy to obtain so average is 10.
+Note to GM! The game starts with 2d6+stat, but with any skill you are probably looking mostly at d8+d6+stat. d8+d6 average around 8 with starting stats arranging from -1 to 1. This means a character rolling a check with their main stat, using a skill will average 9. Items with die upgrade should also be easy to obtain so average is 10.
 
 Critical Success
 If both dice roll their maximum number the roll is considered a Critical Success. This means that the check passes regardless of the actual end result and DR and usually it means that the check succeeds even better than originally expected or to the maximum degree. For example hacking a computer system with critical success could mean the system already had a known back door and the files the character was looking for are well named and indexed while with normal check additional hacking checks could be needed to find what they were looking for.
@@ -90,9 +89,9 @@ Rule of cool. Play the game however you like, but the system is much more fun if
 
 == Optional rules section ==
 — Luck —
-Luck: a stat that is used for rolls that don’t fit under any other stat. This isn’t a main stat and is rolled with a d3-1, so your luck starts between 0 and 2. Luck does not regenerate during a session, but is instead rerolled at the start of each session regardless of what value it has.
+stat that is used for rolls that don’t fit under any other stat. This isn’t a main stat and is rolled with a d3-1, so your luck starts between 0 and 2. Luck does not regenerate during a session, but is instead rerolled at the start of each session regardless of what value it has.
 - it is used to perform actions such as…
-searching for treasure, seeing if door was left unlocked, games of chance
+>searching for treasure, seeing if door was left unlocked, games of chance
 
 Additionally Luck can be spent on lowering DR by 2 or re-rolling a die (your’s or someone else’s). Luck can’t go below 0 from spending it, but can go to negatives due to Fumbles. At Luck:-6 you will automatically Fumble every luck roll regardless of the actual result.
 
