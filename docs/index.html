@@ -27,6 +27,47 @@
       --line: #d4c6ab;
       --note: #fff0cc;
       --accent: #74411b;
+      --navbg: #fff8ebd9;
+      --link: #1f4f6f;
+      --subopt: #4f3b27;
+      --suboptline: #c5a170;
+      --drbg: #f6ebd7;
+      --drline: #e3cfad;
+      --refdesc: #5c4a36;
+      --footer: #614f3a;
+      --h3: #3b2a17;
+      --h5: #5a3518;
+      --noteborder: #a56833;
+      --refcard: #fffdf8;
+      --refhead: #4d2f17;
+      --refline: #eadfcb;
+      --refth: #5d3a1f;
+      --summary: #2a2118;
+    }
+    [data-theme="dark"] {
+      --bg: #171a1f;
+      --bg2: #202833;
+      --ink: #ece7db;
+      --card: #232b35;
+      --line: #3a4757;
+      --note: #313321;
+      --accent: #e0b16c;
+      --navbg: #1e2630dd;
+      --link: #88c2e8;
+      --subopt: #d5c4ac;
+      --suboptline: #7f6948;
+      --drbg: #3e3324;
+      --drline: #705838;
+      --refdesc: #d2c4b0;
+      --footer: #af9f89;
+      --h3: #e7d9c5;
+      --h5: #e0c091;
+      --noteborder: #b88d52;
+      --refcard: #1f2731;
+      --refhead: #e2b97f;
+      --refline: #384555;
+      --refth: #e2c79d;
+      --summary: #e7ddce;
     }
     * { box-sizing: border-box; }
     body {
@@ -39,33 +80,35 @@
     .wrap { max-width: 940px; margin: 0 auto; padding: 1rem; }
     header { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1rem; }
     h1 { font-size: clamp(1.4rem, 2.4vw, 2.1rem); margin: 0 0 .4rem; }
-    nav { position: sticky; top: 0; z-index: 10; margin: .9rem 0; padding: .5rem .7rem; background: #fff8ebd9; backdrop-filter: blur(3px); border: 1px solid var(--line); border-radius: 10px; display: flex; flex-wrap: wrap; gap: .6rem; }
-    nav a { color: #1f4f6f; text-decoration: none; font-weight: 700; }
+    nav { position: sticky; top: 0; z-index: 10; margin: .9rem 0; padding: .5rem .7rem; background: var(--navbg); backdrop-filter: blur(3px); border: 1px solid var(--line); border-radius: 10px; display: flex; flex-wrap: wrap; gap: .6rem; }
+    nav a { color: var(--link); text-decoration: none; font-weight: 700; }
     .rule-section { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1rem; margin-bottom: .9rem; }
     h2 { margin: 0 0 .6rem; font-size: 1.2rem; }
-    h3 { margin: .9rem 0 .35rem; font-size: 1.06rem; color: #3b2a17; }
+    h3 { margin: .9rem 0 .35rem; font-size: 1.06rem; color: var(--h3); }
     h4 { margin: .8rem 0 .35rem; font-size: 1rem; color: var(--accent); }
-    h5 { margin: .65rem 0 .3rem; font-size: .95rem; color: #5a3518; letter-spacing: .02em; }
+    h5 { margin: .65rem 0 .3rem; font-size: .95rem; color: var(--h5); letter-spacing: .02em; }
     p { margin: .35rem 0; }
     ul { margin: .25rem 0 .5rem 1.2rem; padding: 0; }
-    .sub-option { margin: .2rem 0 .55rem 2rem; padding: .15rem .5rem; border-left: 3px solid #c5a170; color: #4f3b27; font-style: italic; }
-    .gm-note { background: var(--note); border-left: 4px solid #a56833; padding: .45rem .55rem; border-radius: 6px; margin: .45rem 0; }
+    .sub-option { margin: .2rem 0 .55rem 2rem; padding: .15rem .5rem; border-left: 3px solid var(--suboptline); color: var(--subopt); font-style: italic; }
+    .gm-note { background: var(--note); border-left: 4px solid var(--noteborder); padding: .45rem .55rem; border-radius: 6px; margin: .45rem 0; }
     .gm-note > summary { margin: 0; font-size: .9em; }
     .gm-note > p { margin: .45rem 0 0; font-size: .92em; }
     .or-sep { text-align: center; font-weight: 700; letter-spacing: .08em; color: var(--accent); }
-    details > summary { cursor: pointer; font-weight: 800; margin-bottom: .5rem; }
-    .module { border: 1px solid var(--line); border-radius: 8px; padding: .5rem .65rem; margin: .55rem 0; background: #fffdf8; }
+    details > summary { cursor: pointer; font-weight: 800; margin-bottom: .5rem; color: var(--summary); }
+    .module { border: 1px solid var(--line); border-radius: 8px; padding: .5rem .65rem; margin: .55rem 0; background: var(--card); }
     .dice-token { display: inline-flex; align-items: baseline; gap: .3rem; }
     .dice-glyph { font-family: 'Polymath', serif; font-weight: 700; font-size: 1.4em; letter-spacing: .01em; font-variant-ligatures: common-ligatures contextual; font-feature-settings: 'liga' 1, 'calt' 1; text-transform: lowercase; }
     .dice-arrow { display: inline-block; font-size: 1.2em; transform: translateY(-0.12em); }
-    .dr-tag { color: #8b4f1a; background: #f6ebd7; border: 1px solid #e3cfad; border-radius: 4px; padding: 0 .22em; font-weight: 700; }
-    .ref-block { border: 1px solid var(--line); border-radius: 10px; padding: .6rem .7rem; margin: .55rem 0; background: #fffdf8; }
-    .ref-head { margin: 0 0 .15rem; color: #4d2f17; }
-    .ref-desc { margin: 0 0 .5rem; color: #5c4a36; font-style: italic; }
+    .dr-tag { color: var(--accent); background: var(--drbg); border: 1px solid var(--drline); border-radius: 4px; padding: 0 .22em; font-weight: 700; }
+    .ref-block { border: 1px solid var(--line); border-radius: 10px; padding: .6rem .7rem; margin: .55rem 0; background: var(--refcard); }
+    .ref-head { margin: 0 0 .15rem; color: var(--refhead); }
+    .ref-desc { margin: 0 0 .5rem; color: var(--refdesc); font-style: italic; }
     .ref-block table { width: 100%; border-collapse: collapse; }
-    .ref-block th, .ref-block td { text-align: left; padding: .3rem .35rem; border-top: 1px solid #eadfcb; vertical-align: top; }
-    .ref-block th { width: 28%; color: #5d3a1f; font-weight: 700; }
-    footer { padding: .5rem .2rem 1.1rem; font-size: .9rem; color: #614f3a; }
+    .ref-block th, .ref-block td { text-align: left; padding: .3rem .35rem; border-top: 1px solid var(--refline); vertical-align: top; }
+    .ref-block th { width: 28%; color: var(--refth); font-weight: 700; }
+    footer { padding: .5rem .2rem 1.1rem; font-size: .9rem; color: var(--footer); }
+    .theme-row { position: fixed; top: .75rem; right: .75rem; z-index: 30; margin: 0; }
+    .theme-toggle { border: 1px solid var(--line); background: var(--card); color: var(--ink); padding: .35rem .62rem; border-radius: 999px; font: inherit; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
     @media (max-width: 700px) {
       .wrap { padding: .7rem; }
       nav { position: static; }
@@ -76,6 +119,7 @@
   <div class="wrap">
     <header>
       <h1>Core Engine Rules</h1>
+      <div class="theme-row"><button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle theme">☾</button></div>
     </header>
     <nav><a href="#stats">Stats</a><a href="#skills">Skills</a><a href="#checks">Checks</a><a href="#rules-of-play">Rules of play</a><a href="#optional-rules">Optional Rules</a></nav>
     <section id="stats" class="rule-section">
@@ -150,7 +194,14 @@
 <p>searching for treasure, seeing if door was left unlocked, games of chance</p>
 <p>Additionally Luck can be spent on lowering DR by 2 or re-rolling a die (your’s or someone else’s). Luck can’t go below 0 from spending it, but can go to negatives due to Fumbles. At Luck:-6 you will automatically Fumble every luck roll regardless of the actual result.</p></details><details class="module"><summary id="violence">Violence</summary><p>Sometimes fleeing from a fight isn’t enough and characters need to inflict violence on NPCs.</p>
 <p>Fighting should always be done with Body stat. Player chooses who their character is going to fight and rolls a Body/Fighting check using appropriate skills and equipment.</p>
-<ul><li>Critical Success: character inflict weapon damage + 1 damage to the NPC</li><li>Success: character inflict weapon damage to the NPC</li><li>Failure: both the character and the NPC inflicts weapon damage to each other</li><li>Fumble: on top of normal Fumble consequence the NPC also inflicts their weapon damage to the character</li></ul>
+<ul><li>Critical Success</li></ul>
+<p class="sub-option">character inflict weapon damage + 1 damage to the NPC</p>
+<ul><li>Success</li></ul>
+<p class="sub-option">character inflict weapon damage to the NPC</p>
+<ul><li>Failure</li></ul>
+<p class="sub-option">both the character and the NPC inflicts weapon damage to each other</p>
+<ul><li>Fumble</li></ul>
+<p class="sub-option">on top of normal Fumble consequence the NPC also inflicts their weapon damage to the character</p>
 <h3>Fighting DR</h3>
 <p>Base DR for fighting without any obstacles is 7, but environmental obstacles, such as trying to shoot something through smoke should increase it.</p>
 <p>Also number of enemies increases the base DR. For every enemy within range where they can reasonably affect the character imposes +1 on the DR. For example a knight fighting three enemies means fighting check of base <span class="dr-tag">DR10</span>, even if one or more of the enemies are not within “melee range” as long as they are equipped with ranged weapons (or ample amounts of rocks). Regardless of number of enemies players will make one fighting check on their turn.</p>
@@ -176,5 +227,37 @@
 <details class="gm-note"><summary>GM Note</summary><p>This is up to you to decide, sometimes it could be fun to Get Better just before a boss fight for example.</p></details></details></details></section>
     <footer>Dice symbols use Polymath by Jesse Ross (SIL OFL 1.1).</footer>
   </div>
+  <script>
+    (function() {
+      const storageKey = 'core-engine-theme';
+      const root = document.documentElement;
+      const btn = document.getElementById('theme-toggle');
+      if (!btn) return;
+
+      const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const saved = localStorage.getItem(storageKey);
+      const initial = saved || (systemPrefersDark ? 'dark' : 'light');
+
+      function setTheme(theme) {
+        if (theme === 'dark') {
+          root.setAttribute('data-theme', 'dark');
+          btn.textContent = '☀';
+          btn.setAttribute('aria-label', 'Switch to light theme');
+        } else {
+          root.removeAttribute('data-theme');
+          btn.textContent = '☾';
+          btn.setAttribute('aria-label', 'Switch to dark theme');
+        }
+      }
+
+      setTheme(initial);
+      btn.addEventListener('click', function() {
+        const current = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        const next = current === 'dark' ? 'light' : 'dark';
+        setTheme(next);
+        localStorage.setItem(storageKey, next);
+      });
+    })();
+  </script>
 </body>
 </html>

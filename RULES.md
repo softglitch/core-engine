@@ -101,10 +101,14 @@ Sometimes fleeing from a fight isn’t enough and characters need to inflict vio
 
 Fighting should always be done with Body stat. Player chooses who their character is going to fight and rolls a Body/Fighting check using appropriate skills and equipment.
 
-- Critical Success: character inflict weapon damage + 1 damage to the NPC
-- Success: character inflict weapon damage to the NPC
-- Failure: both the character and the NPC inflicts weapon damage to each other
-- Fumble: on top of normal Fumble consequence the NPC also inflicts their weapon damage to the character
+- Critical Success
+>character inflict weapon damage + 1 damage to the NPC
+- Success
+>character inflict weapon damage to the NPC
+- Failure
+>both the character and the NPC inflicts weapon damage to each other
+- Fumble
+>on top of normal Fumble consequence the NPC also inflicts their weapon damage to the character
 
 # Fighting DR
 Base DR for fighting without any obstacles is 7, but environmental obstacles, such as trying to shoot something through smoke should increase it.
