@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import html
 import re
 import shutil
@@ -14,6 +15,7 @@ from pathlib import Path
 SECTION_RE = re.compile(r"^==\s*(.+?)\s*==$")
 OPTIONAL_MODULE_RE = re.compile(r"^—\s*(.+?)\s*—$")
 DICE_TOKEN_RE = re.compile(r"\b(\d*)d(4|6|8|10|12|20)\b")
+DR_TOKEN_RE = re.compile(r"\bDR(\d+)\b")
 
 
 @dataclass
@@ -113,25 +115,35 @@ def compress_line(text: str) -> str:
 def apply_dice_markup(escaped_text: str) -> str:
     def repl(match: re.Match[str]) -> str:
         token = match.group(0)
+        count_text = match.group(1)
         die = f"d{match.group(2)}"
+        count = int(count_text) if count_text else 1
+        repeat_count = max(1, min(count, 12))
         safe_token = html.escape(token)
         safe_die = html.escape(die)
+        glyphs = "".join(
+            f'<span class="dice-glyph">{safe_die}</span>' for _ in range(repeat_count)
+        )
         return (
             '<span class="dice-token" aria-label="'
             + safe_token
-            + '"><span class="dice-glyph">'
-            + safe_die
-            + '</span><span class="dice-text">'
-            + safe_token
-            + "</span></span>"
+            + '">'
+            + glyphs
+            + "</span>"
         )
 
     return DICE_TOKEN_RE.sub(repl, escaped_text)
 
 
 def render_text(text: str) -> str:
-    escaped = html.escape(compress_line(text))
-    return apply_dice_markup(escaped)
+    normalized = compress_line(text).replace("->", "→")
+    escaped = html.escape(normalized)
+    rendered = apply_dice_markup(escaped)
+    rendered = rendered.replace(
+        "→",
+        '<span class="dice-arrow" aria-hidden="true">→</span>',
+    )
+    return DR_TOKEN_RE.sub(r'<span class="dr-tag">DR\1</span>', rendered)
 
 
 def render_blocks(lines: list[str]) -> str:
@@ -146,37 +158,111 @@ def render_blocks(lines: list[str]) -> str:
         blocks.append(f"<ul>{items}</ul>")
         bullets = []
 
-    for raw in lines:
+    idx = 0
+    while idx < len(lines):
+        raw = lines[idx]
         line = raw.strip()
         if not line:
             flush_bullets()
+            idx += 1
             continue
 
         if line.startswith("- "):
             bullets.append(line[2:].strip())
+            idx += 1
             continue
 
         flush_bullets()
 
+        if line == "---":
+            next_delim = None
+            probe = idx + 1
+            while probe < len(lines):
+                if lines[probe].strip() == "---":
+                    next_delim = probe
+                    break
+                probe += 1
+
+            if next_delim is None:
+                idx += 1
+                continue
+
+            block_lines: list[str] = []
+            idx += 1
+            while idx < next_delim:
+                inner = lines[idx].strip()
+                if inner:
+                    block_lines.append(inner)
+                idx += 1
+
+            is_ref_block = False
+            if len(block_lines) >= 2:
+                first = block_lines[0].strip()
+                second = block_lines[1].strip()
+                has_kv_rows = any(":" in row for row in block_lines[2:])
+                looks_like_item = bool(re.match(r"^\d+\.\s", first))
+                has_forbidden_markers = first.startswith("Note to GM!") or second.startswith("#")
+                is_ref_block = (looks_like_item or has_kv_rows) and not has_forbidden_markers
+
+            if is_ref_block:
+                header = render_text(block_lines[0])
+                desc = render_text(block_lines[1])
+                rows: list[str] = []
+                for raw_row in block_lines[2:]:
+                    label, sep, content = raw_row.partition(":")
+                    if sep:
+                        rows.append(
+                            "<tr><th>"
+                            + render_text(label.strip())
+                            + "</th><td>"
+                            + render_text(content.strip())
+                            + "</td></tr>"
+                        )
+                    else:
+                        rows.append("<tr><td colspan=\"2\">" + render_text(raw_row) + "</td></tr>")
+                table_html = (
+                    "<table><tbody>" + "".join(rows) + "</tbody></table>"
+                    if rows
+                    else ""
+                )
+                blocks.append(
+                    '<section class="ref-block"><h5 class="ref-head">'
+                    + header
+                    + '</h5><p class="ref-desc">'
+                    + desc
+                    + "</p>"
+                    + table_html
+                    + "</section>"
+                )
+            elif block_lines:
+                blocks.append(render_blocks(block_lines))
+
+            continue
+
         if line == "OR":
             blocks.append('<p class="or-sep">OR</p>')
+            idx += 1
             continue
 
         if line.startswith("### "):
             blocks.append(f"<h5>{render_text(line[4:].strip())}</h5>")
+            idx += 1
             continue
 
         if line.startswith("## "):
             blocks.append(f"<h4>{render_text(line[3:].strip())}</h4>")
+            idx += 1
             continue
 
         if line.startswith("# "):
             blocks.append(f"<h3>{render_text(line[2:].strip())}</h3>")
+            idx += 1
             continue
 
         if line.startswith(">"):
             option_text = line[1:].strip()
             blocks.append(f'<p class="sub-option">{render_text(option_text)}</p>')
+            idx += 1
             continue
 
         if "Note to GM!" in line:
@@ -190,13 +276,16 @@ def render_blocks(lines: list[str]) -> str:
                 + render_text(suffix)
                 + "</p></details>"
             )
+            idx += 1
             continue
 
         if re.match(r"^[A-Za-z][A-Za-z\s]+$", line) and len(line.split()) <= 4:
             blocks.append(f"<h4>{render_text(line)}</h4>")
+            idx += 1
             continue
 
         blocks.append(f"<p>{render_text(line)}</p>")
+        idx += 1
 
     flush_bullets()
     return "\n".join(blocks)
@@ -214,7 +303,32 @@ def section_sort_key(section: Section) -> int:
     return order.get(title, 99)
 
 
-def render_html(sections: list[Section]) -> str:
+def load_font_sources() -> tuple[str, str]:
+    root = Path(__file__).resolve().parent.parent
+    source_dir = root / "Polymath"
+    regular_path = source_dir / "Polymath.otf"
+    bold_path = source_dir / "Polymath-Bold.otf"
+
+    if not regular_path.exists():
+        raise FileNotFoundError(f"Missing font file: {regular_path}")
+    if not bold_path.exists():
+        raise FileNotFoundError(f"Missing font file: {bold_path}")
+
+    regular_b64 = base64.b64encode(regular_path.read_bytes()).decode("ascii")
+    bold_b64 = base64.b64encode(bold_path.read_bytes()).decode("ascii")
+
+    regular_src = (
+        f"url('data:font/otf;base64,{regular_b64}') format('opentype'), "
+        "url('./assets/fonts/Polymath.otf') format('opentype')"
+    )
+    bold_src = (
+        f"url('data:font/otf;base64,{bold_b64}') format('opentype'), "
+        "url('./assets/fonts/Polymath-Bold.otf') format('opentype')"
+    )
+    return regular_src, bold_src
+
+
+def render_html(sections: list[Section], regular_font_src: str, bold_font_src: str) -> str:
     core_sections = [s for s in sections if s.title.lower() != "optional rules section"]
     core_sections = sorted(core_sections, key=section_sort_key)
     optional = next((s for s in sections if s.title.lower() == "optional rules section"), None)
@@ -264,15 +378,17 @@ def render_html(sections: list[Section]) -> str:
   <style>
     @font-face {{
       font-family: 'Polymath';
-      src: url('./assets/fonts/Polymath.otf') format('opentype');
+      src: {regular_font_src};
       font-style: normal;
       font-weight: 400;
+      font-display: swap;
     }}
     @font-face {{
       font-family: 'Polymath';
-      src: url('./assets/fonts/Polymath-Bold.otf') format('opentype');
+      src: {bold_font_src};
       font-style: normal;
       font-weight: 700;
+      font-display: swap;
     }}
     :root {{
       --bg: #f4efe6;
@@ -305,14 +421,21 @@ def render_html(sections: list[Section]) -> str:
     ul {{ margin: .25rem 0 .5rem 1.2rem; padding: 0; }}
     .sub-option {{ margin: .2rem 0 .55rem 2rem; padding: .15rem .5rem; border-left: 3px solid #c5a170; color: #4f3b27; font-style: italic; }}
     .gm-note {{ background: var(--note); border-left: 4px solid #a56833; padding: .45rem .55rem; border-radius: 6px; margin: .45rem 0; }}
-    .gm-note > summary {{ margin: 0; }}
-    .gm-note > p {{ margin: .45rem 0 0; }}
+    .gm-note > summary {{ margin: 0; font-size: .9em; }}
+    .gm-note > p {{ margin: .45rem 0 0; font-size: .92em; }}
     .or-sep {{ text-align: center; font-weight: 700; letter-spacing: .08em; color: var(--accent); }}
     details > summary {{ cursor: pointer; font-weight: 800; margin-bottom: .5rem; }}
     .module {{ border: 1px solid var(--line); border-radius: 8px; padding: .5rem .65rem; margin: .55rem 0; background: #fffdf8; }}
     .dice-token {{ display: inline-flex; align-items: baseline; gap: .3rem; }}
-    .dice-glyph {{ font-family: 'Polymath', serif; font-weight: 700; font-size: 1.06em; letter-spacing: .01em; }}
-    .dice-text {{ font-size: .87em; opacity: .72; }}
+    .dice-glyph {{ font-family: 'Polymath', serif; font-weight: 700; font-size: 1.4em; letter-spacing: .01em; font-variant-ligatures: common-ligatures contextual; font-feature-settings: 'liga' 1, 'calt' 1; text-transform: lowercase; }}
+    .dice-arrow {{ display: inline-block; font-size: 1.2em; transform: translateY(-0.12em); }}
+    .dr-tag {{ color: #8b4f1a; background: #f6ebd7; border: 1px solid #e3cfad; border-radius: 4px; padding: 0 .22em; font-weight: 700; }}
+    .ref-block {{ border: 1px solid var(--line); border-radius: 10px; padding: .6rem .7rem; margin: .55rem 0; background: #fffdf8; }}
+    .ref-head {{ margin: 0 0 .15rem; color: #4d2f17; }}
+    .ref-desc {{ margin: 0 0 .5rem; color: #5c4a36; font-style: italic; }}
+    .ref-block table {{ width: 100%; border-collapse: collapse; }}
+    .ref-block th, .ref-block td {{ text-align: left; padding: .3rem .35rem; border-top: 1px solid #eadfcb; vertical-align: top; }}
+    .ref-block th {{ width: 28%; color: #5d3a1f; font-weight: 700; }}
     footer {{ padding: .5rem .2rem 1.1rem; font-size: .9rem; color: #614f3a; }}
     @media (max-width: 700px) {{
       .wrap {{ padding: .7rem; }}
@@ -367,7 +490,8 @@ def main() -> int:
         print("Failed to parse sections from input file.", file=sys.stderr)
         return 1
 
-    html_text = render_html(sections)
+    regular_font_src, bold_font_src = load_font_sources()
+    html_text = render_html(sections, regular_font_src, bold_font_src)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(html_text, encoding="utf-8")

@@ -49,7 +49,7 @@ Skills are freely chosen by players, but with the agreement of the table. Skills
 All characters start with 2 skills.
 
 == Checks ==
-Checks are by default are 2d6+stat vs DR8 (Difficult Rating), players roll all checks and are trying to meet or beat the DR so DR7 means combined results of 7 or above is a success. Any result below DR is a failure.
+Checks are by default are 2d6+stat vs DR7 (Difficult Rating), players roll all checks and are trying to meet or beat the DR so DR7 means combined results of 7 or above is a success. Any result below DR is a failure.
 
 Which stat to use is determined by the action performed, use your imagination or refer to stats section for inspiration.
 
@@ -66,7 +66,7 @@ d6->d8->d10->d12->d20
 Note! If a character has both an appropriate skill and item they can choose to apply die upgrades to separate or the same die, meaning d6->d8 twice or d6->d8->d10. Or if they are pushing their skill and using extra useful item they can choose to roll 2d10 or d6+d20.
 
 Note to GM! About probabilities…
-The game starts with 2d6+stat, but with any skill you are probably looking mostly at d8+d6+(-3 to 5). D8+d6 average around 8 with starting stats arranging from -1 to 1. This means a character rolling a check with their main stat, using a skill will average 9. Items with die upgrade should also be easy to obtain so average is 10.
+The game starts with 2d6+stat, but with any skill you are probably looking mostly at d8+d6+(-3 to 5). d8+d6 average around 8 with starting stats arranging from -1 to 1. This means a character rolling a check with their main stat, using a skill will average 9. Items with die upgrade should also be easy to obtain so average is 10.
 
 Critical Success
 If both dice roll their maximum number the roll is considered a Critical Success. This means that the check passes regardless of the actual end result and DR and usually it means that the check succeeds even better than originally expected or to the maximum degree. For example hacking a computer system with critical success could mean the system already had a known back door and the files the character was looking for are well named and indexed while with normal check additional hacking checks could be needed to find what they were looking for.
@@ -106,62 +106,77 @@ Fighting should always be done with Body stat. Player chooses who their characte
 - Failure: both the character and the NPC inflicts weapon damage to each other
 - Fumble: on top of normal Fumble consequence the NPC also inflicts their weapon damage to the character
 
-Fighting DR:
+# Fighting DR
 Base DR for fighting without any obstacles is 7, but environmental obstacles, such as trying to shoot something through smoke should increase it.
 
 Also number of enemies increases the base DR. For every enemy within range where they can reasonably affect the character imposes +1 on the DR. For example a knight fighting three enemies means fighting check of base DR10, even if one or more of the enemies are not within “melee range” as long as they are equipped with ranged weapons (or ample amounts of rocks). Regardless of number of enemies players will make one fighting check on their turn.
 
 For players to engage the threat of the NPCs GM shall describe their Type when introducing hostile NPCs into a scene or when asked by the player, this information shall not be hidden, but only Enemy Type should be revealed not HP nor any extra abilities.
 
-Enemy Types:
+# Enemy Types
+
+---
 1. Grunt
+standard enemy players face early and often
 HP: 1-4
 Damage: 1
 DR: base
 Example: goblin, wolf, laborer, police officer, cultist, face hugger
-
+---
 2. Elite
+harder enemies that function as early bosses and become standard later
 HP: 3-6
 Damage: 2
 DR: base+1
 Example: orc, bear, high security guard, swat, cult leader, xenomorph
-
+---
 3. Boss
+bosses should be at end of archs which involve violence prominently
 HP: 4-8
 Damage: 3
 DR: base+2
 Example: war boss, dragon, military cyborg, demon, alien queen
-
+---
 4. God
+characters are not expected to be able to defeat gods in combat, unless that is the vibe you are going for
 HP: 10+
 Damage: 4
 DR: base+3
 Example: god of thunder, eldrich being, ruler of the underworld, space king
+---
 
 Note to GM! To spice up encounters you can introduce extra abilities at their discretion to any Enemy Type. Also just because example contains something that doesn’t mean it has to be there. In some games players might be regularly fighting demons so it makes more sense to make them Type:1 Grunt. In another table Type 3:Boss Goblin makes more sense. These are guidelines for players to engage the threat of the situation so they can consider if they are equipped and skilled enough to take on the enemies.
 
-Weapon Types:
-0. Unarmed: Players will always inflict 1 damage regardless of what they fight with as long as it makes narrative sense, for example kicking a car won’t damage the car in a meaningful way.
+# Weapon Types
 
-1. Common weapon: whatever is a common weapon in the universe of your table.
+---
+0. Unarmed:
+Players will always inflict 1 damage regardless of what they fight with as long as it makes narrative sense, for example kicking a car won’t damage the car in a meaningful way.
+---
+1. Common weapon
+whatever is a common weapon in the universe of your table.
 Damage: 1
 Upgrade die by: 1
 Example: dagger, pistol, brass knuckles, baton, stick
-
-2. Uncommon weapon: whatever is more lethal and less common in the universe of your table
+---
+2. Uncommon weapon
+whatever is more lethal and less common in the universe of your table
 Damage: 2
 Upgrade die by: 1
 Example: sword, spear, battle axe, rifle, pistol, knife, blaster
-
-3. Rare weapon: whatever is rare in the universe of your table
+---
+3. Rare weapon
+whatever is rare in the universe of your table
 Damage: 2
 Upgrade die by: 2
 Example: magic sword, machine gun, shotgun, cannon, grenade
-
-4. Special weapons: anything that does not fit the previous sections.
+---
+4. Special weapons
+anything that does not fit the previous sections.
 Damage: 3+
 Upgrade die by: 2+
 Example: legendary demon killing blade, antimatter pistol, rocket launcher, nuclear bomb, space laser
+---
 
 Note to GM! Enemies use their damage number regardless of what they are equipped with. Their weapons only affect narratively. For example it is okay for a Type1:Grunt enemy to shoot down player’s helicopter with a rocket launcher, but that shouldn’t deal more than 1 damage to player’s character in that moment.
 
@@ -169,9 +184,9 @@ Note to GM! Enemies use their damage number regardless of what they are equipped
 During a longer campaign style play players may want to upgrade their character you can do so by…
 
 Choosing between:
-- new skill
+- New skill
 OR
-- choosing a stat and rolling a d6, if the result is higher than the stat increment that stat by one
+- Choosing a stat and rolling a d6, if the result is higher than the stat increment that stat by one
 
 Characters should Get Better at the end of a story arch regardless of whether they achieved their goals or not.
 Note to GM! This is up to you to decide, sometimes it could be fun to Get Better just before a boss fight for example.
